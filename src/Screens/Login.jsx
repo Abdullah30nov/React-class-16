@@ -7,6 +7,8 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { GithubAuthProvider } from "firebase/auth";
 import { auth } from './firebase';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import GoogleIcon from '@mui/icons-material/Google';
 
 
 function Login() {
@@ -22,20 +24,20 @@ function Login() {
     };
     function handleSubmit(event) {
         event.preventDefault();
-        if (email === '' || password === '') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Please Fill Required Fields',
-                text: 'Both fields are required!',
-            });
-            setEmail('');
-            setPassword('');
-            setErrorShown(true);
-            return;
-        }
+        // if (email === '' || password === '') {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Please Fill Required Fields',
+        //         text: 'Both fields are required!',
+        //     });
+        //     setEmail('');
+        //     setPassword('');
+        //     // setErrorShown(true);
+        //     return;
+        // }
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                console.log(userCredential);
+                console.log(userCredential.user.uid);
                 Swal.fire({
                     icon: "success",
                     title: "Success!",
@@ -59,7 +61,8 @@ function Login() {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
             .then((result) => {
-                console.log("Login Google Done" + result);
+                console.log("Login Google Done" + result.user.uid);
+                navigate('/Dashboard')
             }).catch((error) => {
                 console.log("Login Goole Wrong" + error);
             });
@@ -69,7 +72,8 @@ function Login() {
         const provider = new GithubAuthProvider();
         signInWithPopup(auth, provider)
             .then((result) => {
-                console.log("Login Github Done" + result);
+                console.log("Login Github Done" + result.user.uid);
+                navigate('/Dashboard')
             }).catch((error) => {
                 console.log("Login Github Wrong" + error);
             });
@@ -104,9 +108,9 @@ function Login() {
                     <p>
                         Create New <Link to='/Signup'>Account</Link>
                     </p>
-                    <button type='submit' className={Style.btn}>Login</button>
-                <button onClick={LoginGoogle} className={Style.btn}>Login with Google</button>
-                <button onClick={LoginGithub} className={Style.btn}>Login with Github</button>
+                    <button type='submit' className={Style.btn}>Login</button><br /><br />
+                <button onClick={LoginGoogle} className={Style.btn}><GoogleIcon/> Login with Google</button><br /><br />
+                <button onClick={LoginGithub} className={Style.btn}><GitHubIcon/> Login with Github</button>
                 </form>
             </div>
         </div>
