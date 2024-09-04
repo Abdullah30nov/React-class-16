@@ -20,7 +20,7 @@ function Login() {
         setEmail(e.target.value);
     };
     const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+        setPassword(e.target.value)
     };
     function handleSubmit(event) {
         event.preventDefault();
